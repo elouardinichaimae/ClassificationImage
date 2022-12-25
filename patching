@@ -1,0 +1,41 @@
+#%%
+import numpy as np
+from matplotlib import pyplot as plt
+from patchify import patchify,unpatchify
+import cv2
+from PIL import Image
+
+large_image = cv2.imread('Data\Images\imageDroneCropped.png')
+# large_mask = cv2.imread('Data\Masks\crop1_2048_mask.jpg')
+
+
+
+    
+patches_img = patchify(large_image, (2048, 2048,3), step=(2048))  #Step=256 for 256 patches means no overlap
+  
+patches_img = patches_img[:,:,0,:,:,:]
+# patches_img = np.squeeze(patches_img)
+print(patches_img.shape)  
+n=1
+for i in range(patches_img.shape[0]):
+    for j in range(patches_img.shape[1]):
+            
+        single_patch_img = patches_img[i,j,:,:,:]
+        # print(np.shape(single_patch_img))
+        cv2.imwrite('patches/images_big/' +str(n)+ ' (' +str(i)+'-' +str(j)+')'+ ".png", single_patch_img)
+        n=n+1
+ 
+
+# reconstructed_image = unpatchify(patches_img, (17920,14848,3))
+
+# patches_mask = patchify(large_mask, (2048, 2048,3), step=2048)  #Step=256 for 256 patches means no overlap
+# patches_mask = np.squeeze(patches_mask)    
+
+# for i in range(patches_mask.shape[0]):
+#     for j in range(patches_mask.shape[1]):
+            
+#         single_patch_mask = patches_mask[i,j,:,:,:]
+#         cv2.imwrite('patches/masks/' +  str(i)+str(j)+ ".jpg", single_patch_mask)
+#         single_patch_mask = single_patch_mask / 255.
+
+ 
